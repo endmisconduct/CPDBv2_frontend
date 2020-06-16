@@ -59,7 +59,7 @@ integration-test-build/
 .idea
 
 ### live test error screenshots ###
-errorShots/
+integration-test/artifacts/
 
 /src/dist/fonts
 /html-report/

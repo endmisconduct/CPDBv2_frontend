@@ -24,9 +24,12 @@ jobs:
             else
               echo "Skipped due to SKIP_COVERALLS is" $SKIP_COVERALLS
             fi
+      - run:
+          name: Create artifacts folder
+          command: mkdir /home/circleci/project/integration-test/artifacts
       - run: yarn integration-test
       - store_artifacts:
-          path: /home/circleci/errorShots
+          path: /home/circleci/project/integration-test/artifacts
       - save_cache:
           key: v3-node-modules-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
           paths:

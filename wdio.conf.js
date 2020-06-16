@@ -1,6 +1,7 @@
 var historyApiFallback = require('connect-history-api-fallback');
 var browserSync = require('browser-sync').create();
 const webpack = require('webpack');
+const lodash = require('lodash');
 const webpackConfig = require('./webpack.config');
 const initCommands = require('./integration-test/custom-commands');
 
@@ -252,8 +253,12 @@ exports.config = {
   // },
   //
   // Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) starts.
-  // afterTest: function (test) {
-  // },
+  afterTest: function ({ passed, parent, title }) {
+    if (!passed) {
+      const screenShotPath = `integration-test/artifacts/${lodash.snakeCase(parent)}__${lodash.snakeCase(title)}.png`;
+      browser.saveScreenshot(screenShotPath);
+    }
+  },
   //
   // Hook that gets executed after the suite has ended
   // afterSuite: function (suite) {
