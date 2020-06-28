@@ -65,7 +65,7 @@ http {
         }
 
         if ($is_redirect = C) {
-            return 301 https://{{MOBILE_SERVER_NAME}}$request_uri;
+            return 301 http://{{MOBILE_SERVER_NAME}}$request_uri;
         }
 
         location ~* ^/officer/(?<officer_name>[a-z-]+)/(?<officer_id>\d+) {
