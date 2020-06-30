@@ -13,6 +13,7 @@ phases:
       - yarn install
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - REPOSITORY_URI=265935852574.dkr.ecr.us-east-2.amazonaws.com/endmisconductdockers
+      - AWS_ACCOUNT=265935852574.dkr.ecr.us-east-2.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
   build:
@@ -20,12 +21,15 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - yarn build
-      - export MOBILE_SERVER_NAME=EC2Co-EcsEl-1B9URBXI5GY8A-620161936.us-east-2.elb.amazonaws.com && sed -e \"s/{{MOBILE_SERVER_NAME}}/$MOBILE_SERVER_NAME/\" nginx.conf.template > nginx.conf
+      - docker login --username AWS --password-stdin $AWS_ACCOUNT
+      - export MOBILE_SERVER_NAME=EC2Co-EcsEl-1B9URBXI5GY8A-620161936.us-east-2.elb.amazonaws.com 
+      - sed -e \"s/{{MOBILE_SERVER_NAME}}/$MOBILE_SERVER_NAME/\" nginx.conf.template > nginx.conf
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
+      - rm nginx.conf
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
