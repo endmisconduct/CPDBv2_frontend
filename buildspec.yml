@@ -21,15 +21,14 @@ phases:
       - echo Build started on `date`
       - echo Building the Docker image...
       - yarn build
-      - docker login --username AWS --password-stdin $AWS_ACCOUNT
       - export MOBILE_SERVER_NAME=EC2Co-EcsEl-1B9URBXI5GY8A-620161936.us-east-2.elb.amazonaws.com 
       - sed -e "s/{{MOBILE_SERVER_NAME}}/$MOBILE_SERVER_NAME/" nginx.conf.template > nginx.conf
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+      - rm nginx.conf
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - rm nginx.conf
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
