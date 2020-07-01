@@ -26,9 +26,17 @@ phases:
       - docker build -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
       - rm nginx.conf
+      - ContainerName="cpdbfrontend"
+      - ImageURI=$REPOSITORY_URI:latest
+      - printf '[{"name":"CONTAINER_NAME","imageUri":"IMAGE_URI"}]' > imagedefinitions.json
+      - sed -i -e "s|CONTAINER_NAME|$ContainerName|g" imagedefinitions.json
+      - sed -i -e "s|IMAGE_URI|$ImageURI|g" imagedefinitions.json
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
       - docker push $REPOSITORY_URI:$IMAGE_TAG
+artifacts:
+  files:
+        - imagedefinitions.json
