@@ -64,9 +64,9 @@ http {
 #            set $is_redirect "${is_assets}${is_bundle}${is_embedded_map}${is_tracker}C";
 #       }
 
-        if ($is_redirect = C) {
-            return 301 http://{{MOBILE_SERVER_NAME}}$request_uri;
-        }
+#        if ($is_redirect = C) {
+#            return 301 http://{{MOBILE_SERVER_NAME}}$request_uri;
+#        }
 
         location ~* ^/officer/(?<officer_name>[a-z-]+)/(?<officer_id>\d+) {
             return 301 /officer/$officer_id/$officer_name/;
