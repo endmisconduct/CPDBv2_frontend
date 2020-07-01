@@ -60,9 +60,9 @@ http {
             set $is_bundle B;
         }
 
-        if ($http_user_agent ~* '(iPhone|iPod|Android|Blackberry|Windows Phone|Opera Mini|WebOS|SymbianOS|IEMobile|Maemo)') {
-            set $is_redirect "${is_assets}${is_bundle}${is_embedded_map}${is_tracker}C";
-        }
+#        if ($http_user_agent ~* '(iPhone|iPod|Android|Blackberry|Windows Phone|Opera Mini|WebOS|SymbianOS|IEMobile|Maemo)') {
+#            set $is_redirect "${is_assets}${is_bundle}${is_embedded_map}${is_tracker}C";
+#       }
 
         if ($is_redirect = C) {
             return 301 http://{{MOBILE_SERVER_NAME}}$request_uri;
