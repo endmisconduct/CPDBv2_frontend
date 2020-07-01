@@ -37,7 +37,7 @@ function Logo(props) {
                   to={ titleLink }
                   className='header-logo-title'
                 >
-                  CPDP
+                  The beginning of EndMisconduct
                 </Link>
               )
           ) }
