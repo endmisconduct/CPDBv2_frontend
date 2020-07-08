@@ -7,7 +7,7 @@ phases:
       - apt-get install -y yarn
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR....
+      - echo Logging in to Amazon ECR
       - aws --version
       - docker info
       - yarn install
